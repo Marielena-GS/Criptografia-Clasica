@@ -62,6 +62,7 @@ public class Cifrado {
 
             String descifrado = descifradoCesar(cifrado, clave);
             System.out.print("Texto a descifrar: " + descifrado);
+            
         }else if(opcion == 2){
             System.out.print("Texto a cifrar: ");
             String texto = scan.nextLine();
@@ -71,7 +72,6 @@ public class Cifrado {
 
             String descifrado = cifradoAtbash(cifrado);
             System.out.println("Texto a descifrar: " + descifrado);
-
         }
     }
 }

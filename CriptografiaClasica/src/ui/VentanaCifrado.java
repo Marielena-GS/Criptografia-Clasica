@@ -31,7 +31,6 @@ public class VentanaCifrado extends JFrame {
         root.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
         root.setBackground(new Color(245, 247, 250));
 
-        // ===== TOP =====
         JPanel top = new JPanel();
         top.setLayout(new BoxLayout(top, BoxLayout.Y_AXIS));
         top.setBackground(root.getBackground());
@@ -88,7 +87,6 @@ public class VentanaCifrado extends JFrame {
 
         root.add(top, BorderLayout.NORTH);
 
-        // ===== CENTRO (TEXTOS GRANDES) =====
         JPanel centro = new JPanel(new GridLayout(1, 2, 15, 15));
         centro.setBackground(root.getBackground());
 
@@ -112,7 +110,6 @@ public class VentanaCifrado extends JFrame {
 
         root.add(centro, BorderLayout.CENTER);
 
-        // ===== BOTTOM =====
         JPanel bottom = new JPanel();
         bottom.setLayout(new BoxLayout(bottom, BoxLayout.Y_AXIS));
         bottom.setBackground(root.getBackground());
@@ -153,7 +150,6 @@ public class VentanaCifrado extends JFrame {
 
         root.add(bottom, BorderLayout.SOUTH);
 
-        // ===== EVENTOS =====
         cifrar.addActionListener(e -> procesar(true));
 
         descifrar.addActionListener(e -> {

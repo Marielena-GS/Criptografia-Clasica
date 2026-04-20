@@ -4,12 +4,10 @@ Aplicación de escritorio desarrollada en Java que implementa diferentes algorit
 
 ## Características
 
-✔ Interfaz gráfica amigable (tipo app real)  
+✔ Interfaz gráfica 
 ✔ Cifrado y descifrado en tiempo real  
 ✔ Soporte para múltiples algoritmos clásicos  
 ✔ Validación de claves  
-✔ Historial de cifrados  
-✔ Animaciones suaves  
 ✔ Botón copiar resultado  
 
 ## Algoritmos implementados

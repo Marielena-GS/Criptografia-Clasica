@@ -1,5 +1,8 @@
 package cifrados;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RailFenceCifrado implements Cifrado {
 
     private int filas;
@@ -10,8 +13,18 @@ public class RailFenceCifrado implements Cifrado {
 
     @Override
     public String cifrar(String texto) {
-        if (filas <= 1)
-            return texto;
+        if (filas <= 1) return texto;
+
+        // Guardar posiciones de espacios
+        List<Integer> espacios = new ArrayList<>();
+        for (int i = 0; i < texto.length(); i++) {
+            if (texto.charAt(i) == ' ') {
+                espacios.add(i);
+            }
+        }
+
+        // Quitar espacios
+        String limpio = texto.replaceAll("\\s+", "");
 
         StringBuilder[] rail = new StringBuilder[filas];
         for (int i = 0; i < filas; i++) {
@@ -19,24 +32,29 @@ public class RailFenceCifrado implements Cifrado {
         }
 
         int fila = 0;
-        int direccion = 1; // 1 = baja, -1 = sube
+        int dir = 1;
 
-        for (int i = 0; i < texto.length(); i++) {
-            rail[fila].append(texto.charAt(i));
+        for (int i = 0; i < limpio.length(); i++) {
+            rail[fila].append(limpio.charAt(i));
 
-            // CAMBIAR DIRECCIÓN ANTES DE SALIR
             if (fila == 0) {
-                direccion = 1;
+                dir = 1;
             } else if (fila == filas - 1) {
-                direccion = -1;
+                dir = -1;
             }
 
-            fila += direccion;
+            fila += dir;
         }
 
+        // Unir resultado
         StringBuilder resultado = new StringBuilder();
         for (StringBuilder r : rail) {
             resultado.append(r);
+        }
+
+        // Reinsertar espacios
+        for (int pos : espacios) {
+            resultado.insert(pos, ' ');
         }
 
         return resultado.toString();
@@ -44,39 +62,69 @@ public class RailFenceCifrado implements Cifrado {
 
     @Override
     public String descifrar(String texto) {
-        if (filas <= 1)
-            return texto;
+        if (filas <= 1) return texto;
 
-        boolean[][] marca = new boolean[filas][texto.length()];
-        int dir = 1, fila = 0;
-
+        // Guardar posiciones de espacios
+        List<Integer> espacios = new ArrayList<>();
         for (int i = 0; i < texto.length(); i++) {
-            marca[fila][i] = true;
-            fila += dir;
-            if (fila == 0 || fila == filas - 1)
-                dir *= -1;
+            if (texto.charAt(i) == ' ') {
+                espacios.add(i);
+            }
         }
 
-        char[][] rail = new char[filas][texto.length()];
+        // Quitar espacios
+        String limpio = texto.replaceAll("\\s+", "");
+
+        boolean[][] marca = new boolean[filas][limpio.length()];
+
+        int fila = 0;
+        int dir = 1;
+
+        // Marcar zig-zag
+        for (int i = 0; i < limpio.length(); i++) {
+            marca[fila][i] = true;
+
+            if (fila == 0) {
+                dir = 1;
+            } else if (fila == filas - 1) {
+                dir = -1;
+            }
+
+            fila += dir;
+        }
+
+        // Llenar matriz
+        char[][] rail = new char[filas][limpio.length()];
         int index = 0;
 
         for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < texto.length(); j++) {
+            for (int j = 0; j < limpio.length(); j++) {
                 if (marca[i][j]) {
-                    rail[i][j] = texto.charAt(index++);
+                    rail[i][j] = limpio.charAt(index++);
                 }
             }
         }
 
+        // Reconstruir mensaje
         StringBuilder resultado = new StringBuilder();
         fila = 0;
         dir = 1;
 
-        for (int i = 0; i < texto.length(); i++) {
+        for (int i = 0; i < limpio.length(); i++) {
             resultado.append(rail[fila][i]);
+
+            if (fila == 0) {
+                dir = 1;
+            } else if (fila == filas - 1) {
+                dir = -1;
+            }
+
             fila += dir;
-            if (fila == 0 || fila == filas - 1)
-                dir *= -1;
+        }
+
+        // Reinsertar espacios
+        for (int pos : espacios) {
+            resultado.insert(pos, ' ');
         }
 
         return resultado.toString();
